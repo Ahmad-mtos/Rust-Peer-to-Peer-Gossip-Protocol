@@ -23,7 +23,7 @@ pub fn gossip(peers: Arc<Mutex<Vec<String>>>, socket: Arc<Mutex<UdpSocket>>, per
                     let buf = "GOSPHello!".as_bytes();
                     let socket = socket.lock().unwrap();
 
-                    match socket.send_to(&buf, peer) {
+                    match socket.send_to(buf, peer) {
                         Ok(_) => (),
                         Err(err) => println!("Error sending to peer {peer}: {:?}", err),
                     };

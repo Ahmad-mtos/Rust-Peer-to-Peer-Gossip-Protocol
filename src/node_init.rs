@@ -50,7 +50,7 @@ pub fn init_node(peers: Arc<Mutex<Vec<String>>>) -> std::io::Result<(UdpSocket, 
         peers.push(addr.clone());
 
         let buf = "INIT".as_bytes();
-        socket.send_to(&buf, addr)?;
+        socket.send_to(buf, addr)?;
 
         let mut buf = [0; BUFFER_SIZE];
         socket.recv_from(&mut buf)?;

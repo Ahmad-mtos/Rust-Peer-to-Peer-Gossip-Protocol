@@ -16,7 +16,7 @@ pub fn parse_buffer(buf: &mut [u8], buffer_size: usize) -> (String, String) {
 
     let msg = str::from_utf8(buf[4..buffer_size].try_into().unwrap()).unwrap().trim_matches(char::from(0));
 
-    return (protocol.to_string(), msg.to_string());
+    (protocol.to_string(), msg.to_string())
 }
 
 /// Handles the GOSP protocol by printing the received message and the address of the sender.
@@ -37,11 +37,11 @@ pub fn handle_gosp_protocol(msg: String, addr: &String) {
 /// * `socket` - The UDP socket used to send messages.
 /// * `msg` - The message containing new peer addresses separated by spaces.
 pub fn handle_info_protocol(peers: &mut MutexGuard<Vec<String>>, socket: &UdpSocket, msg: String) {
-    let new_peers: Vec<&str> = msg.split(" ").collect();
+    let new_peers: Vec<&str> = msg.split(' ').collect();
     for peer in new_peers {
         if !peer.is_empty() {
             let buf = "CONN".as_bytes();
-            match socket.send_to(&buf, peer) {
+            match socket.send_to(buf, peer) {
                 Ok(_) => peers.push(peer.to_string()),
                 Err(err) => println!("Error sending to peer {peer}: {:?}", err),
             };
